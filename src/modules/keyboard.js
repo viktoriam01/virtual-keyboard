@@ -2,27 +2,24 @@ import { doc } from "prettier";
 import { keyLayoutRu, keyLayoutEn, dictRuShiftFirstLine, dictEnShiftFirstLine, codeDict } from './dictionary';
 
    class Keyboard {
-      // elements
       main = null;
       keysContainer = null;
       keys = [];
 
-      // properties
       value = '';
       capsLock = false;
       shift = false;
       isEng = true;
 
       usingLang = {};
-      // onclose: null,
-   
-      // methods
+         
+      
       init() {
-         // Create Main Elements
+         
          this.main = document.createElement('div')
          this.title = document.createElement('h1')
          this.textarea = document.createElement('textarea');
-         // textareaObject.autofocus = true;
+         
          this.keysContainer = document.createElement('div')
          this.system = document.createElement('p')
          this.switchLang = document.createElement('p')
@@ -30,7 +27,6 @@ import { keyLayoutRu, keyLayoutEn, dictRuShiftFirstLine, dictEnShiftFirstLine, c
          let node1 = document.createTextNode("Клавиатура создана в операционной системе Windows. ");
          let node2 = document.createTextNode("Для переключения языка комбинация: левыe ctrl + alt");
 
-         // Setup Main Elements
          this.main.classList.add('wrapper')
          this.title.append(node);
          this.textarea.classList.add('input')
@@ -47,7 +43,6 @@ import { keyLayoutRu, keyLayoutEn, dictRuShiftFirstLine, dictEnShiftFirstLine, c
 
          this.keys = this.keysContainer.querySelectorAll('key')  
 
-         // Add To DOM
          this.main.append(this.title)
          this.main.append(this.textarea)
          this.main.append(this.keysContainer)
@@ -123,20 +118,8 @@ import { keyLayoutRu, keyLayoutEn, dictRuShiftFirstLine, dictEnShiftFirstLine, c
                  
                   break;
 
-               case 'ShiftLeft':
-                  
-                                   
-                  // keyElement.addEventListener('keydown', () => {
-                  //     this._toggleShift()                   
-                  // })
-
-                  // keyElement.addEventListener('keyup', () => {
-                  //     this._toggleShift()                   
-                  // })                
-                  
-                
-                               
-                  
+               case 'ShiftLeft':                             
+                                 
 
                   break;
 
@@ -169,7 +152,6 @@ import { keyLayoutRu, keyLayoutEn, dictRuShiftFirstLine, dictEnShiftFirstLine, c
 
         }
       
-      //   Словарь соответствия кода физической клавиши значению виртуальной клавиши
       _generateDict(codeDict, lang) {
          
          let generateLang = {}
@@ -266,7 +248,7 @@ import { keyLayoutRu, keyLayoutEn, dictRuShiftFirstLine, dictEnShiftFirstLine, c
 
                   break;
 
-                  // NOT DONE
+                  
                case 'Ctrl':
                   keyElement.classList.add('l');
                   keyElement.textContent = 'Ctrl';
@@ -279,8 +261,7 @@ import { keyLayoutRu, keyLayoutEn, dictRuShiftFirstLine, dictEnShiftFirstLine, c
                   keyElement.textContent = 'Alt';
 
                   keyElement.addEventListener('click', () => {
-                     // this.value += ' ';
-                     // this._print();
+                     
                   })
 
                   break;
