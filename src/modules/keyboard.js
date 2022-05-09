@@ -1,5 +1,5 @@
 import { doc } from "prettier";
-import { keyLayoutRu, keyLayoutEn, dictRuShiftFirstLine, dictEnShiftFirstLine } from './dictionary';
+import { keyLayoutRu, keyLayoutEn, dictRuShiftFirstLine, dictEnShiftFirstLine, codeDict } from './dictionary';
 
    class Keyboard {
       // elements
@@ -11,12 +11,11 @@ import { keyLayoutRu, keyLayoutEn, dictRuShiftFirstLine, dictEnShiftFirstLine } 
       value = '';
       capsLock = false;
       shift = false;
+      isEng = true;
 
-      eventHendlers = {
-      
-      oninput: null,
+      usingLang = {};
       // onclose: null,
-   }
+   
       // methods
       init() {
          // Create Main Elements
@@ -56,12 +55,103 @@ import { keyLayoutRu, keyLayoutEn, dictRuShiftFirstLine, dictEnShiftFirstLine } 
          this.main.append(this.switchLang)
          document.body.append(this.main)
 
-          
+         if (this.isEng) {
+         this._generateDict(codeDict, keyLayoutEn) 
+         } else {
+            this._generateDict(codeDict, keyLayoutRu) 
+         }
+
          window.addEventListener('keydown', (e) => {
             e.preventDefault()
             document.querySelectorAll('.key').forEach(key => {
-               if (obj[e.which] === key.textContent) {
+               if (this.usingLang[e.code] === key.textContent || this.usingLang[e.code] === key.textContent.toLowerCase()) {
                   key.classList.add('active')
+
+               switch (e.code) {
+               case 'Backspace':
+                  this.value = this.value.substring(0, this.value.length - 1);
+                  this._print();
+
+                  break;
+
+               case 'Delete':               
+                  this.value = this.value.substring(1, this.value.length);
+                  this._print();
+
+                  break;
+
+               case 'CapsLock':                                   
+                     this._toggleCapsLock();
+                
+                  break;
+
+               case 'Enter':                                 
+                     this.value += '\n';
+                     this._print();
+                 
+                  break;
+
+               case 'Space':                                 
+                     this.value += ' ';
+                     this._print();
+                
+                  break;
+
+               case 'Tab': 
+                     this.value += '    ';
+                     this._print();
+                  
+                  break;
+
+               case 'MetaLeft':
+                  
+                  break;
+
+               case 'ControlLeft':
+                                 
+                  break;
+                           
+               case 'ControlRight':
+                                 
+                  break;   
+
+               case 'AltLeft':
+                 
+                  break;
+
+               case 'AltRight':
+                 
+                  break;
+
+               case 'ShiftLeft':
+                  
+                                   
+                  // keyElement.addEventListener('keydown', () => {
+                  //     this._toggleShift()                   
+                  // })
+
+                  // keyElement.addEventListener('keyup', () => {
+                  //     this._toggleShift()                   
+                  // })                
+                  
+                
+                               
+                  
+
+                  break;
+
+               case 'ShiftRight':
+                                 
+                
+                  break;
+
+
+               default:                      
+                     this.value += key.textContent;
+                     this._print();
+                  
+                  break;
+               }
                }
             })
             
@@ -70,7 +160,7 @@ import { keyLayoutRu, keyLayoutEn, dictRuShiftFirstLine, dictEnShiftFirstLine } 
          window.addEventListener('keyup', (e) => {
             e.preventDefault()
             document.querySelectorAll('.key').forEach(key => {
-               if (obj[e.which] === key.textContent) {
+               if (this.usingLang[e.code] === key.textContent) {
                   key.classList.remove('active')
                }
             })
@@ -79,6 +169,19 @@ import { keyLayoutRu, keyLayoutEn, dictRuShiftFirstLine, dictEnShiftFirstLine } 
 
         }
       
+      //   Словарь соответствия кода физической клавиши значению виртуальной клавиши
+      _generateDict(codeDict, lang) {
+         
+         let generateLang = {}
+
+         for (let i = 0; i < codeDict.length; i++) {
+            generateLang[codeDict[i]] = lang[i]
+         }
+         generateLang['Equal'] = '=';
+         this.usingLang = generateLang
+         
+      }
+
       _createKeys() {
          const fragment = document.createDocumentFragment();
          const keyLayout = keyLayoutEn;
